@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class HarryPotterViewModel : ViewModel {
+class HarryPotterViewModel : ViewModel() {
     private val repository = HarryPotterRepository()
     private val _harryPotterData = MutableLiveData<List<HarryPotterData>>()
     val harryPotterData: LiveData<List<HarryPotterData>> = _harryPotterData
