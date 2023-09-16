@@ -78,12 +78,12 @@ fun HPImageCard(data: HarryPotterData){
                 contentDescription = "image",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Fit
+                    .height(400.dp),
+                contentScale = ContentScale.Crop
             )
             Surface (
                 color = colors.onSurface.copy(alpha = .3f),
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier.align(Alignment.BottomStart),
                 contentColor = colors.surface
             ) {
                 Column(
@@ -91,7 +91,7 @@ fun HPImageCard(data: HarryPotterData){
                         .fillMaxWidth()
                         .padding(4.dp)
                 ) {
-                    Text(text = "Character: ${data.name}")
+                    Text(text = "Name: ${data.name}")
                     Text(text = "Hogwarts' House: ${data.house}")
                     Text(text = "Actor: ${data.actor}")
                 }
