@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
@@ -39,16 +40,6 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
     LaunchedEffect(Unit) {
         viewModel.fetchHarryPotterApi()
     }
-    /*TopAppBar(
-        title = { Text(
-            text = "Harry Potter World",
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-            )
-        },
-        colors = TopAppBarDefaults.centerAligned(),
-    )*/
-
             LazyColumn() {
                 if(data.isEmpty()) {
                     item {
@@ -112,10 +103,16 @@ fun HPImageCard(data: HarryPotterData){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyUI() {
+    val gold = Color(0xFFFFD700)
+    val deepBlue = Color( 0xFF000080)
     CenterAlignedTopAppBar(
-        title = { Text(text = "SemicolonSpace") },
+        title = { Text(
+            text = "Il mondo di Enrico Vasaio",
+            color = gold,
+            fontWeight = FontWeight.Bold
+        ) },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.Black
+            containerColor = deepBlue
         )
     )
 }
