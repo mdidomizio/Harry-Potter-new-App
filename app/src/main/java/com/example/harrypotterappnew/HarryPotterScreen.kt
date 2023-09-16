@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme.colors
@@ -40,7 +42,16 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
     LaunchedEffect(Unit) {
         viewModel.fetchHarryPotterApi()
     }
-            LazyColumn {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2)
+    ) {
+        //lazy vertical grid asks for the index of the items (lazy column instead asks for the element that we want to use as items)
+        items(data.count()) { index ->
+            val currentData = data[index]
+            HPImageCard(data = currentData)
+        }
+    }
+    /*{
                 if(data.isEmpty()) {
                     item {
                         CircularProgressIndicator(
@@ -55,7 +66,8 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
                     }
                 }
             }
-        }
+        }*/
+}
 
 @Composable
 fun HPImageCard(data: HarryPotterData){
@@ -78,7 +90,7 @@ fun HPImageCard(data: HarryPotterData){
                 contentDescription = "image",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp),
+                    .height(200.dp),
                 contentScale = ContentScale.Crop
             )
             Surface (
