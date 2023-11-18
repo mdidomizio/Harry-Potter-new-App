@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -43,11 +44,12 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
         viewModel.fetchHarryPotterApi()
     }
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
+        columns = GridCells.Fixed(3)
     ) {
+        val cleanData = orderByWandLengthDescending(data)
         //lazy vertical grid asks for the index of the items (lazy column instead asks for the element that we want to use as items)
-        items(data.count()) { index ->
-            val currentData = data[index]
+        items(cleanData.count()) { index ->
+            val currentData = cleanData[index]
             HPImageCard(data = currentData)
         }
     }
@@ -76,12 +78,13 @@ fun HPImageCard(data: HarryPotterData){
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
-            .padding(4.dp)
             .shadow(
-                elevation = 2.dp,
+                elevation = 4.dp,
+                ambientColor = Color.Red,
                 spotColor = Color.Black,
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(8.dp)
             )
+            .padding(6.dp)
     ) {
         Box{
 
@@ -91,7 +94,7 @@ fun HPImageCard(data: HarryPotterData){
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillHeight
             )
             Surface (
                 color = colors.onSurface.copy(alpha = .3f),
@@ -103,9 +106,9 @@ fun HPImageCard(data: HarryPotterData){
                         .fillMaxWidth()
                         .padding(4.dp)
                 ) {
-                    Text(text = "Name: ${data.name}")
-                    Text(text = "Hogwarts' House: ${data.house}")
-                    Text(text = "Actor: ${data.actor}")
+                    Text(text = "${data.name}")
+                    /*Text(text = "Hogwarts' House: ${data.house}")
+                    Text(text = "Played by: ${data.actor}")*/
                 }
             }
         }
@@ -127,5 +130,14 @@ fun MyUI() {
             containerColor = deepBlue
         )
     )
+}
+
+fun orderByWandLengthDescending(data: List<HarryPotterData>) : List<HarryPotterData>{
+    val cleanData = data.filter {
+        it.image != ""
+    }.sortedByDescending {
+        it.wand.length
+    }
+    return cleanData
 }
 

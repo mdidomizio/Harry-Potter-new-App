@@ -25,6 +25,6 @@ data class HarryPotterData(
 
 data class Wand(
     val core: String,
-    val length: String,
+    val length: Float,
     val wood: String
 )
