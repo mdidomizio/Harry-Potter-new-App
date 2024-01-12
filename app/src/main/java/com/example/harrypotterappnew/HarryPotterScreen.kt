@@ -46,10 +46,12 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3)
     ) {
-        val cleanData = orderByWandLengthDescending(data)
+        val dataWithImage = filtersDataWithImage(data)
+        /*val longerWandData = orderByWandLengthDescending(data)*/ /*TODO combine filtri per avere dati con immagini e ordinati per lunghezza di bachetta*/
+
         //lazy vertical grid asks for the index of the items (lazy column instead asks for the element that we want to use as items)
-        items(cleanData.count()) { index ->
-            val currentData = cleanData[index]
+        items(dataWithImage.count()) { index ->
+            val currentData = dataWithImage[index]
             HPImageCard(data = currentData)
         }
     }
@@ -132,12 +134,16 @@ fun MyUI() {
     )
 }
 
+fun filtersDataWithImage(data: List<HarryPotterData>) : List<HarryPotterData>{
+    val dataWithImage = data.filter {
+         it.image != ""
+    }
+    return dataWithImage
+}
 fun orderByWandLengthDescending(data: List<HarryPotterData>) : List<HarryPotterData>{
-    val cleanData = data.filter {
-        it.image != ""
-    }.sortedByDescending {
+    val longerWandData = data.sortedByDescending {
         it.wand.length
     }
-    return cleanData
+    return longerWandData
 }
 
