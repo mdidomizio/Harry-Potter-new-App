@@ -17,7 +17,7 @@ class HarryPotterViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            delay(1000)
+            delay(2000)
             _isReady.value = true
         }
     }
