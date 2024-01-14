@@ -2,8 +2,9 @@
 <resources>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="android:windowSplashScreenBackground">#000080</item>
-        <item name="android:postSplashScreenTheme">@style/Theme.HarryPotterAppNew</item>
+        <item name="android:windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.HarryPotterAppNew</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
     </style>
+
 </resources>

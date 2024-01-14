@@ -4,7 +4,7 @@
     <style name="Theme.HarryPotterAppNew" parent="android:Theme.Material.Light.NoActionBar" />
     
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="android:windowSplashScreenBackground">#000080</item>
+        <item name="android:windowSplashScreenBackground">@color/ic_launcher_background</item>
         <item name="android:postSplashScreenTheme">@style/Theme.HarryPotterAppNew</item>
     </style>
 </resources>
