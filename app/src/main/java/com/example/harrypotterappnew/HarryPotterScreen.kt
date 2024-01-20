@@ -1,18 +1,18 @@
 package com.example.harrypotterappnew
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material3.Card
@@ -32,8 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter.State.Empty.painter
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 
 @Composable
@@ -46,7 +50,25 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3)
     ) {
-        val dataWithImage = filtersDataWithImage(data)
+
+        if(data.isEmpty()) {
+            item {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(align = Alignment.Center)
+                )
+            }
+        } else {
+            items(data) { data->
+                HPImageCard (data)
+            }
+        }
+
+
+        /*shows only data when there is the profile image*/
+       val dataWithImage = filtersDataWithImage(data)
+
         /*val longerWandData = orderByWandLengthDescending(data)*/ /*TODO combine filtri per avere dati con immagini e ordinati per lunghezza di bachetta*/
 
         //lazy vertical grid asks for the index of the items (lazy column instead asks for the element that we want to use as items)
@@ -55,27 +77,12 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
             HPImageCard(data = currentData)
         }
     }
-    /*{
-                if(data.isEmpty()) {
-                    item {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(align = Alignment.Center)
-                        )
-                    }
-                } else {
-                    items(data) { data->
-                        HPImageCard (data)
-                    }
-                }
-            }
-        }*/
 }
+
 
 @Composable
 fun HPImageCard(data: HarryPotterData){
-    val imagePainter = rememberImagePainter(data = data.image)
+    val imagePainter = rememberAsyncImagePainter(model = data.image)
 
     Card(
         shape = MaterialTheme.shapes.medium,
@@ -88,7 +95,15 @@ fun HPImageCard(data: HarryPotterData){
             )
             .padding(6.dp)
     ) {
-        Box{
+        Box {
+            AsyncImage(
+                model = R.drawable.logo,
+                contentDescription = "profile image missing",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(Color( 0xFF000080))
+            )
 
             Image(
                 painter = imagePainter,
@@ -98,8 +113,9 @@ fun HPImageCard(data: HarryPotterData){
                     .height(200.dp),
                 contentScale = ContentScale.FillHeight
             )
-            Surface (
-                color = colors.onSurface.copy(alpha = .3f),
+
+        Surface(
+            color = colors.onSurface.copy(alpha = .3f),
                 modifier = Modifier.align(Alignment.BottomStart),
                 contentColor = colors.surface
             ) {
@@ -140,6 +156,17 @@ fun filtersDataWithImage(data: List<HarryPotterData>) : List<HarryPotterData>{
     }
     return dataWithImage
 }
+
+/*fun showAllDataWithoutImage(list: List<HarryPotterData>): List<HarryPotterData> {
+    for (harryPotterDataItem in list) {
+        if (harryPotterDataItem.image == "") {
+            harryPotterDataItem.image = R.drawable.logo.toString()
+        } else {
+            harryPotterDataItem.image
+        }
+    }
+    return dataWithoutImage
+}*/
 fun orderByWandLengthDescending(data: List<HarryPotterData>) : List<HarryPotterData>{
     val longerWandData = data.sortedByDescending {
         it.wand.length
