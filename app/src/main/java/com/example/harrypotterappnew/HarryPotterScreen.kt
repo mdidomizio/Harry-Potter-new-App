@@ -1,6 +1,5 @@
 package com.example.harrypotterappnew
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,13 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 
 @Composable
 fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
@@ -50,8 +46,8 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3)
     ) {
-
-        if(data.isEmpty()) {
+        //here we create the spinner that will be displaid while data are getting fetched
+        if (data.isEmpty()) {
             item {
                 CircularProgressIndicator(
                     modifier = Modifier
@@ -60,8 +56,9 @@ fun HarryPotterScreen(viewModel: HarryPotterViewModel) {
                 )
             }
         } else {
-            items(data) { data->
-                HPImageCard (data)
+            //here we show the fetched data inside the card ui
+            items(data) { data ->
+                HPImageCard(data)
             }
         }
 
@@ -102,7 +99,7 @@ fun HPImageCard(data: HarryPotterData){
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .background(Color( 0xFF000080))
+                    .background(Color(0xFF000080))
             )
 
             Image(
@@ -157,16 +154,6 @@ fun filtersDataWithImage(data: List<HarryPotterData>) : List<HarryPotterData>{
     return dataWithImage
 }
 
-/*fun showAllDataWithoutImage(list: List<HarryPotterData>): List<HarryPotterData> {
-    for (harryPotterDataItem in list) {
-        if (harryPotterDataItem.image == "") {
-            harryPotterDataItem.image = R.drawable.logo.toString()
-        } else {
-            harryPotterDataItem.image
-        }
-    }
-    return dataWithoutImage
-}*/
 fun orderByWandLengthDescending(data: List<HarryPotterData>) : List<HarryPotterData>{
     val longerWandData = data.sortedByDescending {
         it.wand.length
