@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            HomePage(viewModel)
+            CatalogHomePage(viewModel)
             /*MyUI()
             HarryPotterScreen(viewModel)*/
         }
@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomePage(viewModel: HarryPotterViewModel){
+fun CatalogHomePage(viewModel: HarryPotterViewModel){
    /* val viewModel: HarryPotterViewModel by viewModels()*/
 
     Surface(
